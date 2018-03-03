@@ -1,7 +1,15 @@
 const http = require("http");
 const axios = require("axios");
 const sha1 = require("sha1");
-const hash = sha1("Password1").toUpperCase();
+
+if (process.argv.length !== 3) {
+  conosle.log("Pass a password as the first parameter");
+  return;
+}
+
+const password = process.argv[2];
+
+const hash = sha1(password).toUpperCase();
 const prefix = hash.slice(0, 5);
 const suffix = hash.slice(5, hash.length);
 console.log(prefix, suffix);
@@ -17,13 +25,17 @@ axios
     return allData;
   })
   .then(results => {
-    return results.find(result => result.suffix == suffix);
+    return results.find(result => result.suffix === suffix);
   })
   .then(result => {
     if (result) {
-      console.log(result);
+      console.log(
+        `Password ${password} with hash ${hash} has appeared ${
+          result.count
+        } times in Pwnd Passwords.`
+      );
     } else {
-      console.log("none found");
+      console.log("Password not found");
     }
     console.log(Date.now() - startTime);
   });
