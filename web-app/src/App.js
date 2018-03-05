@@ -6,7 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      password: "Plain Text Password",
+      password: "Password1",
       lastEffor: undefined,
       loading: false,
       allRows: []
@@ -16,26 +16,42 @@ class App extends Component {
     return [
       <div className="heading" />,
 
-      <div className="App">
+      <div className="App text--center">
         <input
           className="password"
           value={this.state.password}
           onChange={this.updatePassword.bind(this)}
           type="text"
         />
-        <button onClick={this.checkPassword.bind(this)}>Check</button>
+        <button onClick={this.checkPassword.bind(this)}>Check Password</button>
         <Loader show={this.state.loading} />
-        <p>{this.state.count}</p>
         <p>{this.state.lastError}</p>
-        <p>{this.state.passwordHash}</p>
-        <p>{this.state.pwndPasswordUrl}</p>
+        <p>Occurences: {this.state.count}</p>
+        <p>Hash: {this.state.passwordHash}</p>
+        <p>
+          URL:{" "}
+          <a href={this.state.pwndPasswordUrl}>{this.state.pwndPasswordUrl}</a>
+        </p>
         <table className="text--small text--left">
+          <thead>
+            <tr>
+              <th className="prefix">Prefix</th>
+              <th>Suffix</th>
+              <th>Count</th>
+            </tr>
+          </thead>
           <tbody>
             {this.state.allRows.map(row => {
               return (
                 <tr key={row.suffix}>
-                  <td>{this.state.prefix}</td>
-                  <td>{row.suffix}</td>
+                  <td className="prefix">{this.state.prefix}</td>
+                  <td
+                    className={
+                      row.suffix === this.state.suffix ? "matching-suffix" : ""
+                    }
+                  >
+                    {row.suffix}
+                  </td>
                   <td>{row.count}</td>
                 </tr>
               );
@@ -58,7 +74,8 @@ class App extends Component {
       pwndPasswordUrl: response.url,
       allRows: response.allRows || [],
       count: response.count,
-      prefix: response.prefix
+      prefix: response.prefix,
+      suffix: response.suffix
     });
   }
 }

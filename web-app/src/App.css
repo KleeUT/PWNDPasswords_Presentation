@@ -10,8 +10,6 @@ html body #root {
   height: 100%;
   margin: auto;
   width: 40rem;
-
-  text-align: center;
 }
 
 .heading {
@@ -36,6 +34,17 @@ html body #root {
 
 .text--left {
   text-align: left;
+}
+.text--center {
+  text-align: center;
+}
+.prefix {
+  color: #999;
+}
+
+.matching-suffix {
+  color: #606;
+  font-weight: bold;
 }
 
 input {
